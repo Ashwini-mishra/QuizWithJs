@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Bank</title>
+</head>
+<style>
+    body{
+        padding: 0px;
+        margin: 0px;
+    }
+    .option_style{
+        padding: 20px;
+        color:red;
+        font-size: 20px;
+    }
+    .question_style{
+        color: black;
+        font-size: 30px;
+        padding: 30px;
+    }
+    .container_style{
+        background-color: lightblue;
+        padding: 50px;
+        text-align: center;
+    }
+    button{
+        margin-top: 20px;
+        padding: 5px;
+        width:100px;
+        background-color: black;
+        color: white;
+    }
+</style>
+
+<body>
+<div id="form"></div>    
+</body>
+
+<!-- script -->
+
+<script type="text/javascript">
+
+const Question=[ { ques :"What is the national song of india ?",option:["Vande Mataram"," Jana Gana Mana "," Dont Know "], ans : 0 , btn_selected :null},
+                { ques :"What is the national game of india ?",option:["Cricket"," Hockey "," Kabadi "], ans : 1 , btn_selected :null}, 
+                { ques :"How many times India won the world cup in cricket?", option:["1"," 2 ", " 4 "], ans : 1 , btn_selected :null},
+                { ques :"world most famous programming language?",option:["java"," java script ", " python "], ans : 1 , btn_selected :null},
+                { ques :"How many number of national language in india ?",option:[ 1, 10 ,22 ], ans : 2 , btn_selected :null}
+            ];
+var button,count,container, key=0,points=0;
+
+render();
+function render()
+{
+    let form=document.getElementById("form");
+    // show all the data at once
+    // for(key=0; key<Question.length ;key++)
+    // {
+    //     let localQuestion = fetch(key);
+    //     form.appendChild(localQuestion);
+    // }
+
+    let localQuestion = fetch(key);
+    form.appendChild(localQuestion);
+}
+
+function next_Ques()
+{  
+    key++;
+   if(key < Question.length){
+    let localQuestion = fetch(key);
+    form.appendChild(localQuestion);
+    //document.getElementById('form').innerHTML=form;
+   
+   }else{
+       alert(points);
+   }
+//    show result at once in a single click
+    // while( key < Question.length)
+    // {
+    //     let localQuestion = fetch(key);
+    //     form.appendChild(localQuestion);
+    //     key++;
+    // }
+}
+
+
+function fetch(valueIndex)
+{
+    form.innerHTML="";
+   let value = Question[valueIndex];
+    container = document.createElement("div");
+    let questionTag = document.createElement("div");
+    questionTag.innerText = value.ques;
+    questionTag.setAttribute("class", "question_style");
+    container.setAttribute("class", "container_style");
+
+    button = document.createElement("button");
+    button.innerText = "next";
+    button.addEventListener("click", submitQuiz);
+
+    form.appendChild(button);
+    container.appendChild(questionTag);
+    let optionContainer = document.createElement("div");
+
+   for(let i=0 ;i < value.option.length ;i++)
+   {
+        let option = document.createElement("label");
+        option.innerHTML= value.option[i];
+        let input = document.createElement("input");
+        input.name=valueIndex;
+        input.type="radio";
+
+        input.addEventListener("click" , function click(){
+            Question[valueIndex].btn_selected=i;
+        })
+
+        option.setAttribute("class", "option_style")
+        optionContainer.appendChild(input);
+        optionContainer.appendChild(option);
+        count=value.option.length;
+        container.appendChild(optionContainer);
+        container.appendChild(button);
+   }
+
+   if(valueIndex == Question.length -1)
+    {
+        button.innerText="submit";
+       
+    }
+return container;
+}
+
+function submitQuiz()
+{
+    var total=0;
+    for(let i=0 ; i<Question.length ; i++)
+    {   
+        console.log(Question[i].ques);
+        if(Question[i].btn_selected === Question[i].ans)
+        {
+            total++;
+             points=(total/Question.length)*100;
+            console.log(points + "%");
+        }else{
+            console.log("not");
+        }
+    }
+    next_Ques();
+}
+
+</script>
+</html>
